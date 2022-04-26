@@ -14,5 +14,7 @@ code {
 
 /* HomePage */
 @import url('./styles/HomePage.css');
+/* Header */
+@import url('./styles/Header.css');
 
 
