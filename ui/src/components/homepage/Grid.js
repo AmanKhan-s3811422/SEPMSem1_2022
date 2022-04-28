@@ -2,15 +2,14 @@ import React from 'react';
 import Row from "./Row";
 
 const Grid = () => {
-    const rows = [0,1,2,3,4,5,6]
-
     return (
         <div className={'wordle-grid'}>
-            {
-                rows.map((id) => {
-                    return(<Row key={id} />)
-                })
-            }
+            <Row id={0}/>
+            <Row id={1}/>
+            <Row id={2}/>
+            <Row id={3}/>
+            <Row id={4}/>
+            <Row id={5}/>
         </div>
     );
 };

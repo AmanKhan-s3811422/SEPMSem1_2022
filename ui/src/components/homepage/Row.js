@@ -1,17 +1,16 @@
 import React from 'react';
 import LetterBox from "./LetterBox";
 
-const Row = () => {
-
-    const letterBoxes = [0,1,2,3,4]
-
+const Row = ({id}) => {
+    const firstTile = id*5
     return (
+
         <div className={'wordle-row'}>
-            {
-                letterBoxes.map((position) => {
-                    return(<LetterBox key={position} id={position}/>)
-                })
-            }
+            <LetterBox id={firstTile}/>
+            <LetterBox id={firstTile+1}/>
+            <LetterBox id={firstTile+2}/>
+            <LetterBox id={firstTile+3}/>
+            <LetterBox id={firstTile+4}/>
         </div>
     );
 };
