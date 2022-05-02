@@ -159,9 +159,11 @@ export const DataProvider = ({children}) => {
     ]
 
     const [gameBoard, setGameBoard] = useState(tiles)
+    const [currentWord, setCurrentWord] = useState('')
 
     const statedData = {
-        gameBoard: [gameBoard, setGameBoard]
+        gameBoard: [gameBoard, setGameBoard],
+        currentWord:[currentWord, setCurrentWord]
     }
 
     return (
