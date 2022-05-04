@@ -1,10 +1,11 @@
 import React, {useContext} from 'react';
 import {GlobalState} from "../../GlobalState";
 
-const LetterBox = ({id, tileRef, callback}) => {
+const LetterBox = ({id, tileRef, callback, blurCallback}) => {
 
     const state = useContext(GlobalState)
     const [gameBoard, setGameBoard] = state.gameBoard
+    const [gameOver] = state.gameOver
     const index = id
 
     const validateLetter = ch => {
@@ -64,10 +65,14 @@ const LetterBox = ({id, tileRef, callback}) => {
         }
     }
 
+    const handleBlur = () => {
+        blurCallback()
+    }
+
     return (
-        <div className={'letter-box'}>
-            <input type="text" id={'char'} ref={tileRef} name={'char'} maxLength={1} size={1}
-                   value={gameBoard[index].char} onChange={handleChange} onKeyDown={handleDelete}/>
+        <div className={'game-tile'}>
+            <input className={gameOver ? 'disabled-tile' : 'active-tile'} type="text" id={'char'} ref={tileRef} name={'char'} maxLength={1} size={1}
+                   value={gameBoard[index].char} onBlur={handleBlur} onChange={handleChange} onKeyDown={handleDelete}/>
         </div>
     );
 };

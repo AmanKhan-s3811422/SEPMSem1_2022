@@ -1,4 +1,5 @@
 import {createContext, useState} from "react";
+import WordAPI from "./api/WordAPI";
 
 export const GlobalState = createContext();
 
@@ -159,11 +160,12 @@ export const DataProvider = ({children}) => {
     ]
 
     const [gameBoard, setGameBoard] = useState(tiles)
-    const [currentWord, setCurrentWord] = useState('')
+    const [gameOver, setGameOver] = useState(false)
 
     const statedData = {
         gameBoard: [gameBoard, setGameBoard],
-        currentWord:[currentWord, setCurrentWord]
+        gameOver: [gameOver, setGameOver],
+        wordAPI: WordAPI()
     }
 
     return (

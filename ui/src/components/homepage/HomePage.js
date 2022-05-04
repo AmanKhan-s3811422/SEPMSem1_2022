@@ -10,16 +10,18 @@ const HomePage = () => {
         setErrorActive(false)
     }
 
-    const errorCallback = async error => {
+    const errorCallback = async (error, isTimeout) => {
+        console.log(error)
         setErrorText(error)
         setErrorActive(true)
-        setTimeout(resetError, 2000)
+        isTimeout && setTimeout(resetError, 2000)
     }
+
 
     return (
         <div className={'home-page'}>
             <div className="wordle-game-container">
-                <div className={errorActive ? "wordle-error" : "no-error"}>{errorText}</div>
+                {errorActive && <div className={"wordle-error"}>{errorText}</div>}
                 <Grid callback={errorCallback}/>
             </div>
         </div>
