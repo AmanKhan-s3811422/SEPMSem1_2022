@@ -30,8 +30,8 @@ async function seedData() {
 
   if (!(count > 0)) {
     await db.word.create({
-      date: "day",
-      word: "person"
+      date: '2022-05-04',
+      word: 'hello'
     });
   }
 }

@@ -3,11 +3,11 @@ module.exports = (sequelize, DataTypes) =>
     "word",
     {
       date: {
-        type: DataTypes.STRING(32),
+        type: DataTypes.DATEONLY,
         primaryKey: true,
       },
       word: {
-        type: DataTypes.STRING(32),
+        type: DataTypes.STRING(5),
         allowNull: false,
       }
     }
