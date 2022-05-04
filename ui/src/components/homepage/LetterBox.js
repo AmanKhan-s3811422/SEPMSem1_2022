@@ -35,7 +35,9 @@ const LetterBox = ({id, tileRef, callback}) => {
     }
 
     const handleDelete = e => {
-        if (e.key === 'Backspace'){
+        if (e.key === "Enter"){
+            callback('enter')
+        } else if (e.key === 'Backspace'){
             if(index % 5 != 0){
                 if(gameBoard[index].char !== ''){
                     setGameBoard(initialGameBoard => {

@@ -1,13 +1,13 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import LetterBox from "./LetterBox";
 import axios from "axios";
 
-const Grid = () => {
+const Grid = callback => {
 
-    let currentFocus = 0
+    const errorCallback = callback.callback
     let refs = useRef([]);
-    let currentWord = ''
-    let guess = 0
+    const [currentWord, setCurrentWord] = useState('')
+    const [guess, setGuess] = useState(0)
     refs.current = [
         0,0,0,0,0,
         0,0,0,0,0,
@@ -17,53 +17,61 @@ const Grid = () => {
         0,0,0,0,0,
     ].map((ref, index) =>   refs.current[index] = React.createRef())
 
-     useEffect(() => {
-         refs.current[currentFocus].current.focus()
-     }, []);
+    useEffect(() => {
+        let wl = currentWord.length
+        let line = guess * 5
+        if(wl < 5){
+            refs.current[wl + line].current.focus()
+        } else if (wl === 5){
+            refs.current[wl-1 + line].current.focus()
+        }
+    }, [currentWord]);
+
 
     const isTheWord = word => {
         console.log('isnt the word')
         return false
     }
 
-    const checkWord = async word => {
-        let url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + word
-        const response = await axios.get(url).catch(() => {return false})
-        return (response.data.log > 0)
+    const notEnoughLetters = async () => {
+        await errorCallback("Not enough letter's")
+    }
+    const wordNotInList = async () => {
+        await errorCallback("Word not in the list")
     }
 
     const nextInput = async value => {
         if (value === 'del') {
-            currentWord = currentWord.slice(0, -1)
-            currentFocus -= 1
-            refs.current[currentFocus].current.focus()
+            setCurrentWord(currentWord.slice(0, -1))
         } else if(value === 'invalidWordDel'){
-            currentWord = currentWord.slice(0, -1)
-        } else {
-            currentWord += value
-            console.log(currentWord)
+            setCurrentWord(currentWord.slice(0, -1))
+        } else if(value === 'enter'){
             if (currentWord.length < 5) {
-                currentFocus += 1
-                refs.current[currentFocus].current.focus()
-            } else if (currentWord.length === 5) {
+                await notEnoughLetters()
+            } else if(currentWord.length === 5) {
+                // check if word is in the English dictionary
                 let url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + currentWord
                 const response = await axios.get(url).catch(() => {
                     return false
                 })
+                // case word is in list
                 if (response && response.data.length > 0) {
                     console.log('is a word')
                     if (isTheWord(currentWord)) {
+                        // case word is correct (game won!)
                         console.log('You found the word!')
                     } else {
-                        guess += 1
-                        currentWord = ''
-                        currentFocus += 1
-                        refs.current[currentFocus].current.focus()
+                        // case word is wrong
+                        setGuess(guess + 1)
+                        setCurrentWord("")
                     }
                 } else {
-                    console.log('Thats not a real word')
+                    // case word is not in the list
+                    await wordNotInList()
                 }
             }
+        } else {
+            setCurrentWord(currentWord + value)
         }
     }
 
