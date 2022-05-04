@@ -29,10 +29,20 @@ async function seedData() {
   const count = await db.word.count();
 
   if (!(count > 0)) {
-    await db.word.create({
-      date: '2022-05-04',
-      word: 'hello'
-    });
+    var words = ["scrap","mouth","eagle","close","truth","swipe","crude","guilt","smart","shake","movie","sweat","screw","smoke","nerve","novel","favor","miner","skate","lease","feign","power","sight","solid","cabin","smash","touch","score","marsh","trunk","world","haunt"]
+    for (let i = 1; i <= 31; i++) {
+      if (i < 10) {
+        var dd = '2022-05-0' + i
+      } else {
+        var dd = '2022-05-' + i
+      }
+      
+      await db.word.create({
+        date: dd,
+        word: words[i]
+      });
+    }
+    
   }
 }
 
