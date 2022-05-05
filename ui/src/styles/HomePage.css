@@ -1,7 +1,10 @@
 .home-page{
 
 }
-.wordle-grid-container{
+.wordle-game-container{
+
+}
+.wordle-error{
 
 }
 .wordle-grid {
@@ -10,7 +13,26 @@
 .wordle-row{
     display: flex;
 }
-.letter-box {
+.game-tile {
 
 }
+
+.disabled-tile {
+
+}
+
+.active-tile {
+
+}
+
+.green-tile {
+
+}
+.yellow-tile {
+
+}
+.grey-tile {
+
+}
+
 
