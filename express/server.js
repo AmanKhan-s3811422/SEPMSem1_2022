@@ -11,7 +11,11 @@ const app = express();
 app.use(express.json());
 
 // Add CORS suport.
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000"
+  })
+);
 
 // Add user routes.
 require("./src/routes/word.routes.js")(express, app);
