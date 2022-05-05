@@ -17,22 +17,18 @@
 
 }
 
-.disabled-tile {
-
-}
-
-.active-tile {
+.blank-tile {
 
 }
 
 .green-tile {
-
+    background-color: green;
 }
 .yellow-tile {
-
+    background-color: yellow;
 }
 .grey-tile {
-
+    background-color: grey;
 }
 
 
