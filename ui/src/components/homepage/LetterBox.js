@@ -5,7 +5,7 @@ const LetterBox = ({id, tileRef, callback, blurCallback}) => {
 
     const state = useContext(GlobalState)
     const [gameBoard, setGameBoard] = state.gameBoard
-    const [gameOver] = state.gameOver
+    const [gameFin] = state.gameFin
     const index = id
 
     const validateLetter = ch => {
@@ -69,9 +69,19 @@ const LetterBox = ({id, tileRef, callback, blurCallback}) => {
         blurCallback()
     }
 
+    const getColour = () => {
+        if (gameBoard[index].checked){
+            if (gameBoard[index].isInWord){
+                if(gameBoard[index].isInPosition){
+                    return "green-tile"
+                } else return "yellow-tile"
+            } else return "grey-tile"
+        } else return "blank-tile"
+    }
+
     return (
         <div className={'game-tile'}>
-            <input className={gameOver ? 'disabled-tile' : 'active-tile'} type="text" id={'char'} ref={tileRef} name={'char'} maxLength={1} size={1}
+            <input className={getColour()} disabled={gameFin} type="text" id={'char'} ref={tileRef} name={'char'} maxLength={1} size={1}
                    value={gameBoard[index].char} onBlur={handleBlur} onChange={handleChange} onKeyDown={handleDelete}/>
         </div>
     );
