@@ -1,11 +1,14 @@
 import './App.css';
 import Pages from './components/routing/Pages';
+import {CookiesProvider} from "react-cookie";
 
 function App() {
   return (
-    <div className="App">
-      <Pages/>
-    </div>
+      <CookiesProvider>
+          <div className="App">
+              <Pages/>
+          </div>
+      </CookiesProvider>
   );
 }
 
