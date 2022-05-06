@@ -6,10 +6,8 @@ import {GlobalState} from "../../GlobalState";
 const Grid = callback => {
     const state = useContext(GlobalState)
     const errorCallback = callback.callback
-    const [currentWord, setCurrentWord] = useState('')
-    const [guess, setGuess] = useState(0)
     const [word] = state.wordAPI.wordOfTheDay
-    const [gameFin, setGameFin] = state.gameFin
+    const [gameData, setGameData] = state.gameData
     const [gameBoard, setGameBoard] = state.gameBoard
     let refs = useRef([]);
     refs.current = [
@@ -24,12 +22,12 @@ const Grid = callback => {
     useEffect(() => {
         // focuses on correct input
         focusInput()
-    }, [currentWord]);
+    }, [gameData.currentWord, gameData.guess]);
 
     const focusInput = () => {
         try{
-            let wl = currentWord.length
-            let line = guess * 5
+            let wl = gameData.currentWord.length
+            let line = gameData.guess * 5
             if(wl < 5){
                 refs.current[wl + line].current.focus()
             } else if (wl === 5){
@@ -40,23 +38,21 @@ const Grid = callback => {
     }
 
     const notEnoughLetters = async () => {
-        console.log("not enough letters")
         await errorCallback("Not enough letter's", true)
     }
     const wordNotInList = async () => {
-        console.log("Word not in the list")
         await errorCallback("Word not in the list", true)
     }
 
     const handleGameOver = async () => {
         // disable the board
         console.log("Game over :(")
-        setGameFin(true)
+        setGameData({...gameData, gameFin: true})
         await errorCallback(word, false)
     }
 
     const checkLetter = (letter, position) => {
-        let line = guess * 5
+        let line = gameData.guess * 5
         if (word.includes(letter)){
             if (word[position] === letter){
                 setGameBoard(initialGameBoard => {
@@ -95,43 +91,42 @@ const Grid = callback => {
             checkLetter(wordToCheck[i], i);
         }
         if (wordToCheck === word) {
-            console.log('You found the word!')
-            setGameFin(true)
+            setGameData({...gameData, gameFin: true})
         } else {
             // case word is wrong
-            if (guess < 5) {
-                setGuess(guess + 1)
+            if (gameData.guess < 5) {
+                setGameData({...gameData, currentWord:"", guess: gameData.guess + 1})
             } else {
+                setGameData({...gameData, currentWord: ""})
                 await handleGameOver()
             }
-            setCurrentWord("")
         }
     }
 
     const nextInput = async value => {
         if (value === 'del') {
-            setCurrentWord(currentWord.slice(0, -1))
+            setGameData({...gameData, currentWord: gameData.currentWord.slice(0, -1)})
         } else if(value === 'invalidWordDel'){
-            setCurrentWord(currentWord.slice(0, -1))
+            setGameData({...gameData, currentWord: gameData.currentWord.slice(0, -1)})
         } else if(value === 'enter'){
-            if (currentWord.length < 5) {
+            if (gameData.currentWord.length < 5) {
                 await notEnoughLetters()
-            } else if(currentWord.length === 5) {
+            } else if(gameData.currentWord.length === 5) {
                 // check if word is in the English dictionary
-                let url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + currentWord
+                let url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + gameData.currentWord
                 const response = await axios.get(url).catch(() => {
                     return false
                 })
                 if (response && response.data.length > 0) {
                     // case word is in dictionary
-                    await checkWord(currentWord)
+                    await checkWord(gameData.currentWord)
                 } else {
                     // case word is not in dictionary
                     await wordNotInList()
                 }
             }
         } else {
-            setCurrentWord(currentWord + value)
+            setGameData({...gameData, currentWord: gameData.currentWord + value})
         }
     }
 

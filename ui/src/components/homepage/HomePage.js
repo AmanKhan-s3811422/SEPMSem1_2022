@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import Grid from "./Grid";
 
 const HomePage = () => {
-    let [errorText, setErrorText] = useState("")
-    let [errorActive, setErrorActive] = useState(false)
+    const [errorText, setErrorText] = useState("")
+    const [errorActive, setErrorActive] = useState(false)
 
     const resetError = () => {
         setErrorText("")
