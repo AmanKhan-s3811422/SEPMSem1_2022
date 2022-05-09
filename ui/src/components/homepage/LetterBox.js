@@ -81,7 +81,7 @@ const LetterBox = ({id, tileRef, callback, blurCallback}) => {
 
     return (
         <div className={'game-tile'}>
-            <input className={getColour()} disabled={gameData.gameFin} type="text" id={'char'} ref={tileRef} name={'char'} maxLength={1} size={1}
+            <input className={getColour()} disabled={gameData.gameFin} type="text" id={'char'} ref={tileRef} name={'char'} maxLength={1} size={5}
                    value={gameBoard[index].char} onBlur={handleBlur} onChange={handleChange} onKeyDown={handleDelete}/>
         </div>
     );

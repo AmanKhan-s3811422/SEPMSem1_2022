@@ -1,15 +1,60 @@
 header {
+    align-items: center;
+    justify-content: space-between;
 
+    padding: 5px 10px;
+    height: var(--header-height);
+    color: var(--color-tone-1);
+    border-bottom: 1px solid;
 }
 .header-title{
-
+    font-weight: 700;
+    font-size: 37px;
+    letter-spacing: 0.01em;
+    margin: auto;
+    width: 50%;
+    padding: 5px;
+    left: 0;
+    right: 0;
+    pointer-events: none;
 }
 .header-stats{
-
+    float: right;
+    font-size: 36px;
 }
 .header-settings{
+    float: right;
+    align-items: center;
+    justify-content: space-between;
 
+    padding: 0 26px;
+
+    font-size: 36px;
 }
 .header-menu{
+    display: inline-block;
+    cursor: pointer;
+    float: left;
+}
+.bar1,
+.bar2,
+.bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+.change .bar1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-9px, 6px);
+}
 
+.change .bar2 {
+    opacity: 0;
+}
+
+.change .bar3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -8px);
 }
