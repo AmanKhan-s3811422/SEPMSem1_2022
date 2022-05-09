@@ -95,6 +95,7 @@ const LetterBox = ({ id, tileRef, callback, blurCallback }) => {
       />
     </div>
   );
+
 };
 
 export default LetterBox;
