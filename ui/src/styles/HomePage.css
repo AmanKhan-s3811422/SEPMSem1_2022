@@ -1,34 +1,112 @@
-.home-page{
-
+.home-page {
+  height: 90vh;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
 }
-.wordle-game-container{
 
+.wordle-game-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-grow: 5;
+  margin-bottom: 50px;
 }
-.wordle-error{
 
+.wordle-error {
+  position: fixed;
+  top: 10vh;
+  left: 50vw;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 400;
+  font-size: 24px;
+  letter-spacing: 0.01em;
+  padding: 20px;
+  background-color: black;
+  color: white;
 }
+
 .wordle-grid {
+  margin-top: 100px;
+}
 
+.wordle-row {
+  /* padding: 5px; */
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  flex-grow: 1;
+  grid-template-columns: repeat(5, 4em);
+  /* grid-template-rows: repeat(6, 4em); */
+  /* gap: 0.25em; */
 }
-.wordle-row{
-    display: flex;
-}
+/* rows*/
+
 .game-tile {
-
+  padding-bottom: 10px;
+  /* box square size*/
 }
 
 .blank-tile {
-
+  height: 50px;
+  width: 50px;
+  column-count: 1;
+  font-weight: 700;
+  font-size: 37px;
+  letter-spacing: 0.01em;
+  text-align: center;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  color: black;
 }
 
 .green-tile {
-    background-color: green;
+  background-color: green;
+  height: 50px;
+  width: 50px;
+  column-count: 1;
+  font-weight: 700;
+  font-size: 37px;
+  letter-spacing: 0.01em;
+  text-align: center;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  color: white;
 }
+
 .yellow-tile {
-    background-color: yellow;
+  background-color: rgb(207, 207, 24);
+  height: 50px;
+  width: 50px;
+  column-count: 1;
+  font-weight: 700;
+  font-size: 37px;
+  letter-spacing: 0.01em;
+  text-align: center;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  color: white;
 }
+
 .grey-tile {
-    background-color: grey;
+  background-color: rgb(99, 99, 99);
+  height: 50px;
+  width: 50px;
+  column-count: 1;
+  font-weight: 700;
+  font-size: 37px;
+  letter-spacing: 0.01em;
+  text-align: center;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  color: white;
 }
-
-
