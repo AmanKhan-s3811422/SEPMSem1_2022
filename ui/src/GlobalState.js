@@ -6,6 +6,10 @@ export const GlobalState = createContext();
 
 export const DataProvider = ({ children }) => {
   const initialState = {
+    pageState: {
+      settings: false,
+      stats: false
+    },
     gameBoard: [
       {
         id: 0,
@@ -224,17 +228,31 @@ export const DataProvider = ({ children }) => {
       gameFin: false,
       date: "",
     },
+    statistics : {
+      gamesPlayed: 0,
+      gamesWon: 0,
+      currentWinStreak: 0,
+      maxWinStreak: 0,
+      guessDistribution: [0,0,0,0,0,0]
+    }
   };
 
+  const [pageState, setPageState] = useState(initialState.pageState);
+
+  const saved = localStorage.getItem("userData");
+  const localStore = JSON.parse(saved);
+
   const hasCurrentGame = () => {
-    let cookieDate = "";
+    let storedDate = "";
     const today = new Date();
-    if ("userCookies" in cookies) {
-      cookieDate = new Date(cookies.userCookies.gameData.date);
+    if (localStore !== null) {
+      console.log("store: ", localStore)
+      console.log(localStore.gameData)
+      storedDate = new Date(localStore.gameData.date);
       if (
-        cookieDate.getDate() === today.getDate() &&
-        cookieDate.getMonth() === today.getMonth() &&
-        cookieDate.getFullYear() === today.getFullYear()
+        storedDate.getDate() === today.getDate() &&
+        storedDate.getMonth() === today.getMonth() &&
+        storedDate.getFullYear() === today.getFullYear()
       ) {
         return true;
       }
@@ -242,34 +260,54 @@ export const DataProvider = ({ children }) => {
     return false;
   };
 
-  const [cookies, setCookies] = useCookies(["userCookies"]);
+  // conditionally set state based on local storage
+  const [statistics, setStatistics] = useState(() =>{
+    if(localStore !==null && "statistics" in localStore) {
+      return localStore.statistics
+    } else {
+      return initialState.statistics
+    }
+  })
 
-  // conditionally set state of game based on cookies
   const [gameBoard, setGameBoard] = useState(() => {
     if (hasCurrentGame()) {
-      return cookies.userCookies.gameBoard;
+      return localStore.gameBoard;
     } else {
       return initialState.gameBoard;
     }
   });
+
   const [gameData, setGameData] = useState(() => {
     if (hasCurrentGame()) {
-      return cookies.userCookies.gameData;
+      return localStore.gameData;
     } else {
       return { ...initialState.gameData, date: new Date() };
     }
   });
+
   useEffect(() => {
-    setCookies("userCookies", {
-      ...cookies.userCookies,
+    localStorage.setItem("userData", JSON.stringify({
+      ...localStore,
       gameBoard: gameBoard,
       gameData: gameData,
-    });
-  }, [gameBoard, gameData]);
+      statistics: statistics
+    }));
+    console.log("useEffect: ", localStore)
+  }, [gameData, gameBoard, statistics]);
+
+  useEffect(() => {
+    // calculates the max win streak each time the currentWinStreak changes
+    setStatistics({...statistics,
+      maxWinStreak: statistics.currentWinStreak > statistics.maxWinStreak
+          ? statistics.currentWinStreak
+          : statistics.maxWinStreak})
+  }, [statistics.currentWinStreak])
 
   const statedData = {
+    pageState: [pageState, setPageState],
     gameBoard: [gameBoard, setGameBoard],
     gameData: [gameData, setGameData],
+    statistics: [statistics, setStatistics],
     wordAPI: WordAPI(),
   };
 
