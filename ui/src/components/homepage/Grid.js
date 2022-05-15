@@ -182,7 +182,7 @@ const Grid = (callback) => {
 
   return (
     <div className={"wordle-grid"}>
-      <button onClick={resetGame}>press here</button>
+      <button onClick={resetGame}>reset game</button>
       <div className={"wordle-row"}>
         <LetterBox
           id={0}
