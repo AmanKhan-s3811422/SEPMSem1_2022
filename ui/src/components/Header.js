@@ -1,22 +1,30 @@
-import React from "react";
+import React, {useContext} from "react";
+import {GlobalState} from "../GlobalState";
 
 const Header = () => {
+    const state = useContext(GlobalState);
+    const [pageState, setPageState] = state.pageState;
+
+    const handleStats = () => {
+        setPageState({...pageState, stats: true})
+    }
 
     return (
         <header>
             <div className="header-menu">
-                <div class="container" onclick="myFunction(this)">
-                    <div class="bar1"></div>
-                    <div class="bar2"></div>
-                    <div class="bar3"></div>
+                <div class="container">
+                    <div className="bar1"></div>
+                    <div className="bar2"></div>
+                    <div className="bar3"></div>
                 </div>
             </div>
 
-            <div className="header-stats">
-                <i class="fa fa-bar-chart"></i>{" "}
+            <div className="header-stats" onClick={handleStats}>
+                <i className="fa fa-bar-chart"></i>{" "}
             </div>
+
             <div className="header-settings">
-                <i class="fa fa-gear"></i>
+                <i className="fa fa-gear"></i>
             </div>
 
             <div className="header-title"> Wordle </div>

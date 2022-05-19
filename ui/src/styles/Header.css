@@ -23,15 +23,15 @@ header {
 .header-stats {
   float: right;
   font-size: 36px;
+  cursor: pointer;
 }
 
 .header-settings {
   float: right;
   align-items: center;
   justify-content: space-between;
-
-  padding: 0 26px;
-
+  cursor: pointer;
+  margin: 0 26px;
   font-size: 36px;
 }
 

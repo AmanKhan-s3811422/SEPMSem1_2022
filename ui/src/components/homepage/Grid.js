@@ -4,43 +4,22 @@ import axios from "axios";
 import { GlobalState } from "../../GlobalState";
 
 const Grid = (callback) => {
+
   const state = useContext(GlobalState);
   const errorCallback = callback.callback;
   const [word] = state.wordAPI.wordOfTheDay;
   const [gameData, setGameData] = state.gameData;
   const [gameBoard, setGameBoard] = state.gameBoard;
+  const [statistics, setStatistics] = state.statistics;
+  const [pageState, setPageState] = state.pageState;
   let refs = useRef([]);
   refs.current = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0,0,0,0,0,
+    0,0,0,0,0,
+    0,0,0,0,0,
+    0,0,0,0,0,
+    0,0,0,0,0,
+    0,0,0,0,0,
   ].map((ref, index) => (refs.current[index] = React.createRef()));
 
   useEffect(() => {
@@ -71,8 +50,27 @@ const Grid = (callback) => {
     // disable the board
     console.log("Game over :(");
     setGameData({ ...gameData, gameFin: true });
+    setStatistics({...statistics,
+      gamesPlayed: statistics.gamesPlayed + 1,
+      currentWinStreak: 0
+    })
     await errorCallback(word, false);
   };
+
+  const handleGameWin = () => {
+    setStatistics({...statistics,
+      gamesPlayed: statistics.gamesPlayed + 1,
+      gamesWon: statistics.gamesWon + 1,
+      currentWinStreak: statistics.currentWinStreak + 1,
+      guessDistribution: [
+          ...statistics.guessDistribution.slice(0, gameData.guess),
+          statistics.guessDistribution[gameData.guess] + 1,
+          ...statistics.guessDistribution.slice(gameData.guess + 1)
+      ]
+    })
+    setGameData({ ...gameData, gameFin: true })
+    setPageState({...pageState, stats: true})
+  }
 
   const checkLetter = (letter, position) => {
     let line = gameData.guess * 5;
@@ -123,7 +121,7 @@ const Grid = (callback) => {
       checkLetter(wordToCheck[i], i);
     }
     if (wordToCheck === word) {
-      setGameData({ ...gameData, gameFin: true });
+      handleGameWin()
     } else {
       // case word is wrong
       if (gameData.guess < 5) {
