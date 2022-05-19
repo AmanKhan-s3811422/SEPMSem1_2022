@@ -5,14 +5,6 @@ import { GlobalState } from "../../GlobalState";
 
 const Grid = (callback) => {
 
-  // functions for testing only starts here
-  const resetGame = () => {
-    const yesterday = new Date()
-    yesterday.setDate(yesterday.getDate() - 1)
-    setGameData({...gameData, date: yesterday})
-  }
-  // functions for testing only ends here
-
   const state = useContext(GlobalState);
   const errorCallback = callback.callback;
   const [word] = state.wordAPI.wordOfTheDay;
@@ -182,7 +174,6 @@ const Grid = (callback) => {
 
   return (
     <div className={"wordle-grid"}>
-      <button onClick={resetGame}>reset game</button>
       <div className={"wordle-row"}>
         <LetterBox
           id={0}
